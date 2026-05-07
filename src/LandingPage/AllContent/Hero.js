@@ -801,7 +801,7 @@ function Hero({ search }) {
     const [editingPost, setEditingPost] = useState(null);
 
     const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
-    const backendUrl = "https://findbuddy-back.onrender.com";
+    const backendUrl = "https://find-buddy-backend.vercel.app";
 
 
     const toggleComments = async (postId) => {

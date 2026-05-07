@@ -30,7 +30,7 @@ function Hero() {
     console.log(Id);
 
     const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
-    const backendUrl = "https://findbuddy-back.onrender.com";
+    const backendUrl = "https://find-buddy-backend.vercel.app";
 
 
     const toggleComments = async (postId) => {
@@ -227,7 +227,7 @@ function Hero() {
 
     const deleteComment = async (id) => {
         try {
-            const deletedComment = await axios.post("https://findbuddy-back.onrender.com/deletePostComment", { id: id });
+            const deletedComment = await axios.post("https://find-buddy-backend.vercel.app/deletePostComment", { id: id });
             setAllComment(deletedComment.data.allComment);
         } catch (error) {
             console.log(error);
@@ -350,7 +350,7 @@ function Hero() {
 
             console.log(data);
 
-            const repost = await axios.post("https://findbuddy-back.onrender.com/repost", data);
+            const repost = await axios.post("https://find-buddy-backend.vercel.app/repost", data);
             console.log(repost);
             fetchAllPost();
             setIsRepost(false);
@@ -381,7 +381,7 @@ function Hero() {
             }
 
             console.log(ids);
-            const removeRepost = await axios.post("https://findbuddy-back.onrender.com/removeRepostContent", ids);
+            const removeRepost = await axios.post("https://find-buddy-backend.vercel.app/removeRepostContent", ids);
             console.log(removeRepost);
             setTimeout(() => { window.location.reload(); }, 3000);
         } catch (error) {
