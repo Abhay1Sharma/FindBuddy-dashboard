@@ -43,7 +43,7 @@ function Hero() {
     const [backgroundImageFile, setBackgroundImageFile] = useState(null);
 
     const backendUrl = "https://findbuddy-back.onrender.com";
-    const dashboardUrl = "https://findbuddy-dash.onrender.com";
+    const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
 
     const toggleComments = async (postId) => {
         setActivePostId(prevId => (prevId === postId ? null : postId));

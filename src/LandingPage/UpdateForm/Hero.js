@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 
-const frontendUrl = "https://findbuddy-lsdc.onrender.com";
+const frontendUrl = "https://find-buddy-frontend.vercel.app";
 const backendUrl = "https://findbuddy-back.onrender.com";
 
 

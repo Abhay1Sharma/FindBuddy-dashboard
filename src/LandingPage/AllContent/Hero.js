@@ -800,7 +800,7 @@ function Hero({ search }) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [editingPost, setEditingPost] = useState(null);
 
-    const dashboardUrl = "https://findbuddy-dash.onrender.com";
+    const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
     const backendUrl = "https://findbuddy-back.onrender.com";
 
 

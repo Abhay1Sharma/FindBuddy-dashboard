@@ -446,9 +446,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
 import { jwtDecode } from 'jwt-decode';
 
-const frontendUrl = "https://findbuddy-lsdc.onrender.com";
+const frontendUrl = "https://find-buddy-frontend.vercel.app";
 const backendUrl = "https://findbuddy-back.onrender.com";
-const dashboardUrl = "https://findbuddy-dash.onrender.com";
+const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
 
 // Initialize socket outside or in a useMemo to prevent multiple instances
 const socket = io(backendUrl, { autoConnect: false });

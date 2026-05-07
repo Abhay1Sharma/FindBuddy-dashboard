@@ -18,7 +18,7 @@ import SavedPosts from "./LandingPage/SavedPosts/SavedPosts"
 import Notification from "./LandingPage/Notifications/Notifications";
 import ShowSharePost from './LandingPage/ShowSharePost/ShowSharePost';
 
-const frontendUrl = "https://findbuddy-lsdc.onrender.com";
+const frontendUrl = "https://find-buddy-frontend.vercel.app";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 function App() {

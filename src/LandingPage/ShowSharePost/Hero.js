@@ -29,7 +29,7 @@ function Hero() {
     const { Id } = useParams();
     console.log(Id);
 
-    const dashboardUrl = "https://findbuddy-dash.onrender.com";
+    const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
     const backendUrl = "https://findbuddy-back.onrender.com";
 
 
