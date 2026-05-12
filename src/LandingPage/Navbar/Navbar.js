@@ -447,7 +447,7 @@ import { io } from "socket.io-client";
 import { jwtDecode } from 'jwt-decode';
 
 const frontendUrl = "https://find-buddy-frontend.vercel.app";
-const backendUrl = "https://find-buddy-backend.vercel.app";
+const backendUrl = "https://findbuddy-back.onrender.com";
 const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
 
 // Initialize socket outside or in a useMemo to prevent multiple instances
@@ -483,7 +483,7 @@ const Navbar = ({ setSearch }) => {
 
       setUserData(res.data);
       if (res.data.connectionId) {
-        const connection = await axios.post("https://find-buddy-backend.vercel.app/checkConnections", { connectionId: res.data.connectionId });
+        const connection = await axios.post("https://findbuddy-back.onrender.com/checkConnections", { connectionId: res.data.connectionId });
         setCheckConnection(connection.data.userConnection);
         setRequestFromArr(connection.data.userConnection.requestFrom);
       }
@@ -624,7 +624,7 @@ const Navbar = ({ setSearch }) => {
         userConnectionId: checkConnection.requestFrom[0].connectionId,
       }
 
-      const res = await axios.post("https://find-buddy-backend.vercel.app/acceptConnection", data);
+      const res = await axios.post("https://findbuddy-back.onrender.com/acceptConnection", data);
       setCheckConnection(prev => ({
         ...prev,
         isAnyRequest: false
@@ -641,7 +641,7 @@ const Navbar = ({ setSearch }) => {
   const rejectRequest = async () => {
     try {
       const connectionsIds = { connectionId: userData.connectionId };
-      const deleteConnection = await axios.post("https://find-buddy-backend.vercel.app/rejectRequest", connectionsIds);
+      const deleteConnection = await axios.post("https://findbuddy-back.onrender.com/rejectRequest", connectionsIds);
     } catch (error) {
       console.log(error);
     }

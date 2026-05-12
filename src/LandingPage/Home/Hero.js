@@ -6,7 +6,7 @@ import socket from "../socket";
 import ChatBox from "../ChatBox";
 import { Link } from "react-router-dom";
 
-const backendUrl = "https://find-buddy-backend.vercel.app";
+const backendUrl = "https://findbuddy-back.onrender.com";
 
 // 1. Add Styles for the floating overlay
 const chatOverlayStyles = {

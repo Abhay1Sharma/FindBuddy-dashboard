@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 
 const frontendUrl = "https://find-buddy-frontend.vercel.app";
-const backendUrl = "https://find-buddy-backend.vercel.app";
+const backendUrl = "https://findbuddy-back.onrender.com";
 
 
 function Hero() {
