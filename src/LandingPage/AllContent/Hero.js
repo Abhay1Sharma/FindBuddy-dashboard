@@ -816,18 +816,19 @@ function Hero({ search }) {
         if (!chatInput.trim() || isBotLoading) return;
 
         const userMessage = { sender: 'user', text: chatInput };
-
+        
         // Optimistically add user message to the UI layout panel
         setChatHistory((prev) => [...prev, userMessage]);
         setChatInput("");
         setIsBotLoading(true);
-
+        
         try {
             // Change URL path to match your API backend setup
             const response = await axios.post('/api/chatbot', {
                 message: userMessage.text,
                 history: chatHistory
             });
+            console.log(response);
 
             setChatHistory((prev) => [...prev, { sender: 'bot', text: response.data.reply }]);
         } catch (error) {
@@ -1267,7 +1268,7 @@ function Hero({ search }) {
 
     const resolveItem = (items) => {
         // Check if this is a repost (has postId and isRepost flag)
-        console.log(items);
+        // console.log(items);
         if (items.isRepost || items.postId) {
 
             return {
@@ -1317,7 +1318,7 @@ function Hero({ search }) {
             createdAt: items.createdAt,
         }
 
-        console.log(regularPost);
+        // console.log(regularPost);
 
         // Regular post
         return {
