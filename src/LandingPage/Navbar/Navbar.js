@@ -653,7 +653,7 @@ const Navbar = ({ setSearch }) => {
       <nav className="navbar navbar-expand-lg sticky-top border-bottom" style={{ backgroundColor: "white", height: "4rem", border: "none", boxShadow: "none" }}>
         <div className="container-fluid">
           <div className="navbar-logo-input">
-            <Link className="navbar-brand" to="/"><i className="fa-solid fa-dumbbell" style={{ color: "red", height: "2rem", width: "2rem" }}> <span style={{ color: "#848080ff" }}>Find</span><span style={{ color: "#FF3D00" }}>Buddy</span></i> </Link>
+            <Link className="navbar-brand" to="https://find-buddy-frontend.vercel.app"><i className="fa-solid fa-dumbbell" style={{ color: "red", height: "2rem", width: "2rem" }}> <span style={{ color: "#848080ff" }}>Find</span><span style={{ color: "#FF3D00" }}>Buddy</span></i> </Link>
             <input placeholder='Enter your Interest' className="searchbar" onChange={(e) => setSearch(e.target.value)} />
           </div>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
