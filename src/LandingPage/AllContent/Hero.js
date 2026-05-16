@@ -803,6 +803,41 @@ function Hero({ search }) {
     const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
     const backendUrl = "https://findbuddy-back.onrender.com";
 
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const [chatInput, setChatInput] = useState("");
+    const [chatHistory, setChatHistory] = useState([
+        { sender: 'bot', text: "Hey! Ready to hit your fitness goals today? Ask me anything about workouts or managing FindBuddy!" }
+    ]);
+    const [isBotLoading, setIsBotLoading] = useState(false);
+
+    // Function to handle sending messages to the backend
+    const handleSendBotMessage = async (e) => {
+        e.preventDefault();
+        if (!chatInput.trim() || isBotLoading) return;
+
+        const userMessage = { sender: 'user', text: chatInput };
+
+        // Optimistically add user message to the UI layout panel
+        setChatHistory((prev) => [...prev, userMessage]);
+        setChatInput("");
+        setIsBotLoading(true);
+
+        try {
+            // Change URL path to match your API backend setup
+            const response = await axios.post('/api/chatbot', {
+                message: userMessage.text,
+                history: chatHistory
+            });
+
+            setChatHistory((prev) => [...prev, { sender: 'bot', text: response.data.reply }]);
+        } catch (error) {
+            console.error("Error communicating with AI:", error);
+            setChatHistory((prev) => [...prev, { sender: 'bot', text: "Sorry, my servers hit a bump. Let's try that again." }]);
+        } finally {
+            setIsBotLoading(false);
+        }
+    };
+
 
     const toggleComments = async (postId) => {
         setActivePostId(prevId => (prevId === postId ? null : postId));
@@ -1667,6 +1702,77 @@ function Hero({ search }) {
                     </div>
                 </div>
             </div>
+
+            <button
+                className="btn btn-dark rounded-circle position-fixed shadow d-flex align-items-center justify-content-center"
+                style={{ bottom: '30px', right: '30px', width: '60px', height: '60px', zIndex: 2000, border: '1px solid #333' }}
+                onClick={() => setIsChatOpen(!isChatOpen)}
+            >
+                {isChatOpen ? <span style={{ fontSize: '20px' }}>❌</span> : <span style={{ fontSize: '26px' }}>🤖</span>}
+            </button>
+
+            {/* 2. Chat Widget Window Frame */}
+            {isChatOpen && (
+                <div
+                    className="card position-fixed shadow-lg d-flex flex-column"
+                    style={{
+                        bottom: '100px',
+                        right: '30px',
+                        width: '360px',
+                        height: '480px',
+                        zIndex: 2000,
+                        borderRadius: '16px',
+                        overflow: 'hidden',
+                        border: '1px solid #e2e8f0',
+                        backgroundColor: '#ffffff'
+                    }}
+                >
+                    {/* Header */}
+                    <div className="card-header bg-dark text-white d-flex align-items-center justify-content-between py-3">
+                        <div className="d-flex align-items-center gap-2">
+                            <span style={{ fontSize: '20px' }}>⚡</span>
+                            <h6 className="m-0 fw-bold" style={{ letterSpacing: '0.5px' }}>BuddyAI Assistant</h6>
+                        </div>
+                        <span className="badge bg-success">Live</span>
+                    </div>
+
+                    {/* Chat Logs Area */}
+                    <div className="card-body p-3 d-flex flex-column gap-2" style={{ overflowY: 'auto', backgroundColor: '#f8fafc' }}>
+                        {chatHistory.map((msg, index) => (
+                            <div
+                                key={index}
+                                className={`p-2 rounded-3 text-start small ${msg.sender === 'user' ? 'bg-primary text-white ms-auto' : 'bg-white text-dark border'}`}
+                                style={{ maxWidth: '82%', width: 'fit-content', boxShadow: msg.sender === 'user' ? 'none' : '0 1px 2px rgba(0,0,0,0.05)' }}
+                            >
+                                {msg.text}
+                            </div>
+                        ))}
+                        {isBotLoading && (
+                            <div className="text-muted small text-start p-2 bg-white rounded-3 border" style={{ width: 'fit-content' }}>
+                                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                BuddyAI is thinking...
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Input Field Form Control */}
+                    <div className="card-footer p-2 bg-white border-top">
+                        <form onSubmit={handleSendBotMessage} className="d-flex gap-2">
+                            <input
+                                type="text"
+                                className="form-control form-control-sm"
+                                placeholder="Ask about gym schedules, routines..."
+                                value={chatInput}
+                                onChange={(e) => setChatInput(e.target.value)}
+                                style={{ borderRadius: '8px' }}
+                            />
+                            <button type="submit" className="btn btn-dark btn-sm px-3" style={{ borderRadius: '8px' }} disabled={isBotLoading}>
+                                Send
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
