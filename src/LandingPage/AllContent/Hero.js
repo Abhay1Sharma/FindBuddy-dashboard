@@ -777,7 +777,7 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from 'date-fns';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import imageCompression from "browser-image-compression";
 
 function Hero({ search }) {
@@ -809,6 +809,7 @@ function Hero({ search }) {
         { sender: 'bot', text: "Hey! Ready to hit your fitness goals today? Ask me anything about workouts or managing FindBuddy!" }
     ]);
     const [isBotLoading, setIsBotLoading] = useState(false);
+    const chatEndRef = useRef(null);
 
     // Function to handle sending messages to the backend
     const handleSendBotMessage = async (e) => {
@@ -816,6 +817,7 @@ function Hero({ search }) {
         if (!chatInput.trim() || isBotLoading) return;
 
         const userMessage = { sender: 'user', text: chatInput };
+        console.log("Hello ", userMessage);
 
         // Optimistically add user message to the UI layout panel
         setChatHistory((prev) => [...prev, userMessage]);
@@ -825,7 +827,7 @@ function Hero({ search }) {
         try {
             // Change URL path to match your API backend setup
             console.log(userMessage);
-            const response = await axios.post('/api/chatbot', {
+            const response = await axios.post(`${backendUrl}/api/chatbot`, {
                 message: userMessage.text,
                 history: chatHistory
             });
@@ -860,7 +862,7 @@ function Hero({ search }) {
                 (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
             );
 
-            console.log(feed);
+            // console.log(feed);
             setAllPost(feed);
             setReady(true);
         } catch (error) {
@@ -1258,13 +1260,20 @@ function Hero({ search }) {
 
     const posts = allPost?.filter((item) => {
         const query = search ? search.toLowerCase() : "";
-        console.log(item);
+        // console.log(item);
 
         const username = item.userId?.username ? item.userId.username.toLowerCase() : "";
-        console.log(username?.includes(query));
+        // console.log(username?.includes(query));
 
         return username?.includes(query) ? item : [];
     });
+
+    useEffect(() => {
+        // Safely execute scroll action if the reference pointer exists in DOM
+        if (chatEndRef.current) {
+            chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [chatHistory]); // Triggers execution automatically on every history change
 
 
     const resolveItem = (items) => {
@@ -1296,7 +1305,6 @@ function Hero({ search }) {
                 profile2: items?.user2?.profileId,
             }
 
-            console.log(data);
 
             return {
                 type: "connectionpost",
@@ -1705,14 +1713,13 @@ function Hero({ search }) {
                 </div>
             </div>
 
-            <button
-                className="btn btn-dark rounded-circle position-fixed shadow d-flex align-items-center justify-content-center"
-                style={{ bottom: '30px', right: '30px', width: '60px', height: '60px', zIndex: 2000, border: '1px solid #333' }}
-                onClick={() => setIsChatOpen(!isChatOpen)}
-            >
-                {isChatOpen ? <span style={{ fontSize: '20px' }}>❌</span> : <span style={{ fontSize: '26px' }}>🤖</span>}
-            </button>
-
+                <button
+                    className="btn btn-dark rounded-circle position-fixed shadow d-flex align-items-center justify-content-center"
+                    style={{ bottom: '30px', right: '30px', width: '60px', height: '60px', zIndex: 2000, border: '1px solid #333' }}
+                    onClick={() => setIsChatOpen(!isChatOpen)}
+                >
+                    {isChatOpen ? <span style={{ fontSize: '20px' }}>❌</span> : <span style={{ fontSize: '26px' }}>🤖</span>}
+                </button>
             {/* 2. Chat Widget Window Frame */}
             {isChatOpen && (
                 <div
@@ -1744,7 +1751,7 @@ function Hero({ search }) {
                             <div
                                 key={index}
                                 className={`p-2 rounded-3 text-start small ${msg.sender === 'user' ? 'bg-primary text-white ms-auto' : 'bg-white text-dark border'}`}
-                                style={{ maxWidth: '82%', width: 'fit-content', boxShadow: msg.sender === 'user' ? 'none' : '0 1px 2px rgba(0,0,0,0.05)' }}
+                                style={{ maxWidth: '82%', width: 'fit-content', boxShadow: msg.sender === 'user' ? 'none' : '0 1px 2px rgba(219, 102, 102, 0.05)' }}
                             >
                                 {msg.text}
                             </div>
@@ -1755,7 +1762,9 @@ function Hero({ search }) {
                                 BuddyAI is thinking...
                             </div>
                         )}
+                        <div ref={chatEndRef} />
                     </div>
+
 
                     {/* Input Field Form Control */}
                     <div className="card-footer p-2 bg-white border-top">
