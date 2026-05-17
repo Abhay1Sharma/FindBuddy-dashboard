@@ -483,7 +483,7 @@ const Navbar = ({ setSearch }) => {
 
       setUserData(res.data);
       if (res.data.connectionId) {
-        const connection = await axios.post("https://findbuddy-back.onrender.com/checkConnections", { connectionId: res.data.connectionId });
+        const connection = await axios.post(`${backendUrl}/checkConnections`, { connectionId: res.data.connectionId });
         setCheckConnection(connection.data.userConnection);
         setRequestFromArr(connection.data.userConnection.requestFrom);
       }
@@ -624,7 +624,7 @@ const Navbar = ({ setSearch }) => {
         userConnectionId: checkConnection.requestFrom[0].connectionId,
       }
 
-      const res = await axios.post("https://findbuddy-back.onrender.com/acceptConnection", data);
+      const res = await axios.post(`${backendUrl}/acceptConnection`, data);
       setCheckConnection(prev => ({
         ...prev,
         isAnyRequest: false
@@ -641,7 +641,7 @@ const Navbar = ({ setSearch }) => {
   const rejectRequest = async () => {
     try {
       const connectionsIds = { connectionId: userData.connectionId };
-      const deleteConnection = await axios.post("https://findbuddy-back.onrender.com/rejectRequest", connectionsIds);
+      const deleteConnection = await axios.post(`${backendUrl}/rejectRequest`, connectionsIds);
     } catch (error) {
       console.log(error);
     }
