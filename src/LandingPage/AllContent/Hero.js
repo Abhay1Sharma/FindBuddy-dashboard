@@ -800,8 +800,8 @@ function Hero({ search }) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [editingPost, setEditingPost] = useState(null);
 
-    const dashboardUrl = "https://find-buddy-dashboard.vercel.app";
-    const backendUrl = "https://findbuddy-back.onrender.com";
+    const dashboardUrl = process.env.REACT_APP_DASHBOARD_URL;
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatInput, setChatInput] = useState("");
@@ -816,14 +816,15 @@ function Hero({ search }) {
         if (!chatInput.trim() || isBotLoading) return;
 
         const userMessage = { sender: 'user', text: chatInput };
-        
+
         // Optimistically add user message to the UI layout panel
         setChatHistory((prev) => [...prev, userMessage]);
         setChatInput("");
         setIsBotLoading(true);
-        
+
         try {
             // Change URL path to match your API backend setup
+            console.log(userMessage);
             const response = await axios.post('/api/chatbot', {
                 message: userMessage.text,
                 history: chatHistory
@@ -1068,7 +1069,7 @@ function Hero({ search }) {
 
     const deleteComment = async (id) => {
         try {
-            const deletedComment = await axios.post("https://findbuddy-back.onrender.com/deletePostComment", { id: id });
+            const deletedComment = await axios.post(`${backendUrl}/deletePostComment`, { id: id });
             setAllComment(deletedComment.data.allComment);
         } catch (error) {
             console.log(error);
@@ -1191,7 +1192,7 @@ function Hero({ search }) {
 
             console.log(data);
 
-            const repost = await axios.post("https://findbuddy-back.onrender.com/repost", data);
+            const repost = await axios.post(`${backendUrl}/repost`, data);
             console.log(repost);
             fetchAllPost();
             setIsRepost(false);
@@ -1239,7 +1240,7 @@ function Hero({ search }) {
             }
 
             console.log(ids);
-            const removeRepost = await axios.post("https://findbuddy-back.onrender.com/removeRepostContent", ids);
+            const removeRepost = await axios.post(`${backendUrl}/removeRepostContent`, ids);
             console.log(removeRepost);
             setTimeout(() => { window.location.reload(); }, 3000);
         } catch (error) {

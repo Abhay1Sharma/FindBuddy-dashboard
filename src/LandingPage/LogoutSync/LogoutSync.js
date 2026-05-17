@@ -1,7 +1,7 @@
 // src/components/LogoutSync.js
 import { useEffect } from "react";
 
-const frontendUrl = "https://find-buddy-frontend.vercel.app";
+const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 const LogoutSync = () => {
     useEffect(() => {
         localStorage.clear(); // Clears Port 3002

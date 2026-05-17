@@ -4,8 +4,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 
-const frontendUrl = "https://find-buddy-frontend.vercel.app";
-const backendUrl = "https://findbuddy-back.onrender.com";
+const frontendUrl = process.env.REACT_APP_FRONTEND_URL;;
+const dashboardUrl = process.env.REACT_APP_DASHBOARD_URL;
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 
 function Hero() {

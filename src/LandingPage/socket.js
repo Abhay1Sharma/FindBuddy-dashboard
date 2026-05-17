@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const backendUrl = "https://findbuddy-back.onrender.com";
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const socket = io(`${backendUrl}`, {
     withCredentials: true,

@@ -17,7 +17,7 @@ function Hero() {
     const [activeChat, setActiveChat] = useState(null);
     console.log(recipientId);
 
-    const backendUrl = "https://findbuddy-back.onrender.com";
+     const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
     const fetchUser = async () => {
         try {
